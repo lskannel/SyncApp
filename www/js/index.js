@@ -65,7 +65,7 @@ function onInitFs(fs) {
       }
     }, errorHandler);
   };
-
+  
   readEntries(); // Start reading dirs.
 
 }
