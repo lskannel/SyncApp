@@ -10,126 +10,85 @@
         <link rel="stylesheet" type="text/css" href="themes/kannelTheme.min.css" />
         <link rel="stylesheet" type="text/css" href="themes/jquery.mobile.icons.min.css"/>
         <link rel="stylesheet" type="text/css" href="css/jquery.mobile.structure-1.4.5.min.css"/>
+        <link rel="stylesheet" type="text/css" href="css/messi.min.css"/>
         
         <title>SyncApp</title>
-        
         <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+  
+        
+        <style>
+			.ajaxDiv{
+				vertical-align:middle;
+				position: absolute;
+				left: 0px;
+				top: 0px;
+				z-index: 100;
+				background-color:rgba(0, 0, 0, 0.65);
+				filter: alpha(opacity=40);
+				width: 132px;
+			}
+			.left {
+				float: left;
+				display: inline-block;
+			}
+			
+			.right {
+				float: right;
+				display: inline-block;
+			}
+        </style>
         
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/html5sql.js"></script>
-        <script type="text/javascript">
-			
-			html5sql.openDatabase("com.kannel.test", "BD de demo", 5*1024*1024);
-			
-			function crearTablas()
-			{
-				html5sql.process("CREATE TABLE datos (id INTEGER PRIMARY KEY, nombre TEXT, pws TEXT);",
-					function()
-					{
-					 	$("#result").text("Success Tablas Creadas");
-					},
-     			    function(error, statement)
-					{
-         				$("#result").text("Error: " + error.message + " when processing " + statement);
-     				});    
-			}
-			function verDatos()
-			{
-				html5sql.process(
-				
-						[
-							{
-								"sql": "Select * from datos;",
-								"data": [],
-								"success": 
-								function (transaction, results)
-								{
-									var LDados = results.rows.length; 
-									
-									var htmlText = "<table style='width:100%' border='1' cellpadding='0' cellspacing='0'><tr><th>Id</th><th>Nombre</th><th>Pws</th></tr>"
-									
-									for (i = 0; i < LDados; i++)
-									{
-										htmlText += "<tr><td>" + results.rows[i].id + "</td>" +
-													"<td>" + results.rows[i].nombre + "</td>" +
-													"<td>" + results.rows[i].pws + "</td></tr>";
-									}
-									
-									htmlText += "</table>";
-									
-									$("#tabla").html(htmlText);
-									
-									console.log(results.rows);
-								}
-							}
-						],
-						function()
-						{
-							$("#result").text("Success Tablas Creadas");
-						},
-						function(error, statement)
-						{
-							$("#result").text("Error: " + error.message + " when processing " + statement);
-						});   
-			}
-			function grabar()
-			{
-				try
-				{
-					$("#result").text("Insert de datos");
-					
-					var usuario = $("#tbUserName").val()
-					var psw     = $("#tbPassWord").val();
-					
-					html5sql.process(
-						[
-							{
-								"sql": "INSERT INTO datos (nombre, pws) VALUES (?, ?)",
-								"data": [
-											usuario,
-											psw
-										]
-							}
-						],
-						function()
-						{
-							$("#result").text("Success Tablas Creadas");
-						},
-						function(error, statement)
-						{
-							$("#result").text("Error: " + error.message + " when processing " + statement);
-						});  
-					
-				}
-				catch (error)
-				{
-					$("#result").text("Error: " + error.message);
-				}
-			}
-        </script>
+        <script type="text/javascript" src="js/messi.min.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        
     </head>
-    <body>
-    	<div data-role="page" id="inicio">
-        	<div data-role="header">
-            	<h1>Log In</h1>
-            </div>
-            
-            <div data-role="content">
-            	<!--<input type="text" id="tbUserName" placeholder="Usuario" required autocomplete="off"/>
-                <input type="text" id="tbPassWord" placeholder="Contrase&ntilde;a" required/>
-                <input type="button" value="Inicar Sesi&oacute;n" onClick="grabar();" />
-                <input type="button" value="Crear tabla" onClick="crearTablas();"/>-->
-                <input type="button" value="Ver Datos" onClick="verDatos();"/>
-                <div id="tabla">
-                
-                </div>
-            </div>
-            
-            <div data-role="footer">
-            	<h1>App de Sincronizaci&Oacute;n</h1>
-                <label id="result"></label>
-            </div>
+<body>
+	<div id="loadingAJAX" class="ajaxDiv" align="center">
+    	<br>
+        <img id="ajaxgif" src="themes/images/ajax-loader.gif" 
+            style=" position:absolute; 
+                    vertical-align:middle;
+                    width:80px; 
+                    height:80px"
+        />
+    </div>
+    <div data-role="page" id="inicio">
+        <div data-role="header">
+        	<!--<button class="ui-btn ui-shadow ui-corner-all ui-icon-power ui-btn-icon-left ui-btn-a ui-btn-inline ui-btn-right" onClick="redirect(0)" >Log In</button>-->
+            <h1>Log In</h1>
         </div>
-    </body>
+        
+        <div data-role="content">
+            <input type="text" id="tbUserName" placeholder="Usuario" required autocomplete="off"/>
+            <input type="password" id="tbPassWord" placeholder="Contrase&ntilde;a" required/>
+            <input type="button" value="Inicar Sesi&oacute;n" onClick="logIn();"/>
+        </div>
+        
+        <div data-role="footer">
+            <h1>App de Sincronizaci&Oacute;n</h1>
+            <label id="result"></label>
+        </div>
+    </div>
+    
+    <div id="LoadTables" data-role="page">
+    	<div data-role="header">
+        	<button class="ui-btn ui-shadow ui-corner-all ui-icon-power ui-btn-icon-left ui-btn-a ui-btn-inline ui-btn-right" onClick="redirect(0)" >Log In</button>
+            <h1>Carga de Tablas</h1>
+        </div>
+        
+        <div data-role="content">
+        	<button class="ui-btn ui-shadow ui-corner-all ui-icon-action ui-btn-icon-left ui-btn-a ui-btn-inline" style="width:100%" onClick="getDataTable()" >Obtener Info.</button>
+            <br/ >
+            <button class="ui-btn ui-shadow ui-corner-all ui-icon-action ui-btn-icon-left ui-btn-a ui-btn-inline" style="width:100%" onClick="crearTablas()" >Crear tablas</button>
+            <br/ >
+            <button class="ui-btn ui-shadow ui-corner-all ui-icon-minus ui-btn-icon-left ui-btn-a ui-btn-inline" style="background-color:#F00; width:100%" onClick="truncateTable()" >Truncar Tablas</button>
+        </div>
+        
+        <div data-role="footer">
+        </div>
+    </div>
+</body>
 </html>
