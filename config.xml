@@ -1,4 +1,7 @@
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="com.kannel.syncapp" version="1.0.0">
+<gap:config-file platform="android" parent="/manifest">
+     <application android:debuggable="true" />
+ </gap:config-file>
   <name>SyncApp</name>
   <description>App para la sincronizacion de para la applicacion de visitas al campo</description>
   <author href="http://ls-sys.com" email="gs@ls-sys.com">LogicSoft</author>
@@ -62,9 +65,7 @@
   <gap:splash src="www/res/screen/ios/screen-ipad-landscape.png" gap:platform="ios" width="1024" height="768"/>
   <gap:splash src="www/res/screen/windows-phone/screen-portrait.jpg" gap:platform="winphone"/>
   <access origin="*"/>
-  <gap:config-file platform="android" parent="/manifest">
-     <application android:debuggable="true" />
- </gap:config-file>
+  
   <plugin name="cordova-plugin-whitelist" version="1"/>
   <allow-intent href="http://*/*"/>
   <allow-intent href="https://*/*"/>
