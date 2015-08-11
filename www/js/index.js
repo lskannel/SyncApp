@@ -159,25 +159,23 @@ function verDatos()
 	
 			[
 				{
-					"sql": "Select * from datos;",
+					"sql": "SELECT tbl_name, sql from sqlite_master WHERE type = 'table';",
 					"data": [],
 					"success": 
 					function (transaction, results)
 					{
 						var LDados = results.rows.length; 
 						
-						var htmlText = "<table style='width:100%' border='1' cellpadding='0' cellspacing='0'><tr><th>Id</th><th>Nombre</th><th>Pws</th></tr>"
+						var htmlText = "<table style='width:100%; border-radius:10px;' border='1' cellpadding='0' cellspacing='0'><tr><th>Nombre Tabla</th></tr>"
 						
 						for (i = 0; i < LDados; i++)
 						{
-							htmlText += "<tr><td>" + results.rows[i].id + "</td>" +
-										"<td>" + results.rows[i].nombre + "</td>" +
-										"<td>" + results.rows[i].pws + "</td></tr>";
+							htmlText += "<tr><td>" + results.rows[i].tbl_name + "</td></tr>";
 						}
 						
 						htmlText += "</table>";
 						
-						$("#tabla").html(htmlText);
+						$("#SaldaTable").html(htmlText);
 						
 						console.log(results.rows);
 					}
