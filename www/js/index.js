@@ -25,99 +25,50 @@ $(document).ready(function(e)
 
 function loadArchivo()
 {
-	window.requestFileSystem(window.PERSISTENT, 5*1024*1024, onInitFs, errorHandler);
-	//window.requestFileSystem(window.TEMPORARY, 0, onFileSystemSuccess, fail);
-	console.log("entrar");
-}
-
-function toArray(list) {
-  return Array.prototype.slice.call(list || [], 0);
-}
-
-function listResults(entries) {
-  // Document fragments can improve performance since they're only appended
-  // to the DOM once. Only one browser reflow occurs.
-  var fragment = document.createDocumentFragment();
-
-  entries.forEach(function(entry, i) {
-    var img = entry.isDirectory ? '<img src="folder-icon.gif">' :
-                                  '<img src="file-icon.gif">';
-    var li = document.createElement('li');
-    li.innerHTML = [img, '<span>', entry.name, '</span>'].join('');
-    fragment.appendChild(li);
-  });
-  console.log(fragment);
-  document.querySelector('#filelist').appendChild(fragment);
-}
-
-function onInitFs(fs) {
-
-	console.log(fs.name);
-    console.log(fs.root.name);
-
-  var dirReader = fs.root.createReader();
-  var entries = [];
-
-  // Call the reader.readEntries() until no more results are returned.
-  var readEntries = function() {
-     dirReader.readEntries (function(results) {
-      if (!results.length) {
-        listResults(entries.sort());
-      } else {
-        entries = entries.concat(toArray(results));
-        readEntries();
-      }
-    }, errorHandler);
-  };
-  
-  readEntries(); // Start reading dirs.
-
-}
-
-/*
-function onFileSystemSuccess(fileSystem) 
-{
-    console.log(fileSystem.root);
-	
-	fileSystem.root.getDirectory(
-	
-	/*fileSystem.root.getFile('com.kannel.sqladminMovil.*', {}, 
-	function (fileEnt)
+    console.log("metodo 1");
+	$.ajax(
 	{
-		fileEnt.file(function (file)
+		url: "0000000000000001.db",
+		dataType: "text",
+		success: function(data)
 		{
-			var reader = new FileReader();
-			
-			reader.onloadend = function (e)
-			{
-				console.log(this.result);	
-			};
-			
-			reader.readAsDataURL(file);			
-			
-		}, fail2);
+			console.log(data);
+		}
+	});
+	
+	console.log("metodo 2");
+	$.ajax(
+	{
+		url: "file:///android_asset/www/0000000000000001.db",
+		dataType: "text",
+		success: function(data)
+		{
+			console.log(data);
+		}
+	});
+	
+	console.log("metodo 1.1");
+	$.ajax(
+	{
+		url: "com.kannel.sqladminMovil.db",
+		dataType: "text",
+		success: function(data)
+		{
+			console.log(data);
+		}
+	});
+	
+	console.log("metodo 2.1");
+	$.ajax(
+	{
+		url: "file:///android_asset/www/com.kannel.sqladminMovil.db",
+		dataType: "text",
+		success: function(data)
+		{
+			console.log(data);
+		}
+	});
 		
-	}, fail);
-	
-	
-}*/
-
-
-function errorHandler(evt) 
-{
-	alert(evt.message);
-    console.log(evt);
-}
-
-function fail(evt) 
-{
-    console.log(evt.message);
-}
-
-function fail2(evt) 
-{
-	alert(evt.message);
-    console.log(evt.message);
 }
 
 $(function ()
