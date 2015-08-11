@@ -25,8 +25,9 @@ $(document).ready(function(e)
 
 function loadArchivo()
 {
-	window.requestFileSystem(window.TEMPORARY, 5*1024*1024, onInitFs, errorHandler);
+	window.requestFileSystem(window.PERSISTENT, 5*1024*1024, onInitFs, errorHandler);
 	//window.requestFileSystem(window.TEMPORARY, 0, onFileSystemSuccess, fail);
+	console.log("entrar");
 }
 
 function toArray(list) {
@@ -45,11 +46,14 @@ function listResults(entries) {
     li.innerHTML = [img, '<span>', entry.name, '</span>'].join('');
     fragment.appendChild(li);
   });
-
+  console.log(fragment);
   document.querySelector('#filelist').appendChild(fragment);
 }
 
 function onInitFs(fs) {
+
+	console.log(fs.name);
+    console.log(fs.root.name);
 
   var dirReader = fs.root.createReader();
   var entries = [];
