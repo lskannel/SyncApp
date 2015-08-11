@@ -34,6 +34,10 @@ function loadArchivo()
 		{
 			console.log(data);
 		}
+	})
+	.fail(function (errorData)
+	{
+		consoloe.log(errorData);
 	});
 	
 	console.log("metodo 2");
@@ -45,6 +49,10 @@ function loadArchivo()
 		{
 			console.log(data);
 		}
+	})
+	.fail(function (errorData)
+	{
+		consoloe.log(errorData);
 	});
 	
 	console.log("metodo 1.1");
@@ -56,6 +64,10 @@ function loadArchivo()
 		{
 			console.log(data);
 		}
+	})
+	.fail(function (errorData)
+	{
+		consoloe.log(errorData);
 	});
 	
 	console.log("metodo 2.1");
@@ -67,6 +79,10 @@ function loadArchivo()
 		{
 			console.log(data);
 		}
+	})
+	.fail(function (errorData)
+	{
+		consoloe.log(errorData);
 	});
 		
 }
