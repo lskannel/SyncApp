@@ -23,69 +23,7 @@ $(document).ready(function(e)
 	 
 });
 
-function loadArchivo()
-{
-    console.log("metodo 1");
-	$.ajax(
-	{
-		url: "0000000000000001.db",
-		dataType: "text",
-		success: function(data)
-		{
-			console.log(data);
-		}
-	})
-	.fail(function (errorData)
-	{
-		consoloe.log(errorData);
-	});
-	
-	console.log("metodo 2");
-	$.ajax(
-	{
-		url: "file:///android_asset/www/0000000000000001.db",
-		dataType: "text",
-		success: function(data)
-		{
-			console.log(data);
-		}
-	})
-	.fail(function (errorData)
-	{
-		consoloe.log(errorData);
-	});
-	
-	console.log("metodo 1.1");
-	$.ajax(
-	{
-		url: "com.kannel.sqladminMovil.db",
-		dataType: "text",
-		success: function(data)
-		{
-			console.log(data);
-		}
-	})
-	.fail(function (errorData)
-	{
-		consoloe.log(errorData);
-	});
-	
-	console.log("metodo 2.1");
-	$.ajax(
-	{
-		url: "file:///android_asset/www/com.kannel.sqladminMovil.db",
-		dataType: "text",
-		success: function(data)
-		{
-			console.log(data);
-		}
-	})
-	.fail(function (errorData)
-	{
-		consoloe.log(errorData);
-	});
-		
-}
+
 
 $(function ()
 {
@@ -109,6 +47,8 @@ function droptable ()
 							"unidad_medida",
 							"conversion_um",
 							"pais",
+							"departamento",
+							"ciudad",
 							"promotor",
 							"vc_grupo",
 							"vc_productor",
@@ -116,7 +56,9 @@ function droptable ()
 							"q_formulario",
 							"vc_variedad",
 							"vc_tipo_suelo",
-							"vc_certificacion"
+							"vc_certificacion",
+							"q_encuesta",
+						"q_grupo"
 						 ] 
 	},
 	function (data)
@@ -147,6 +89,8 @@ function crearTablas()
 							"unidad_medida",
 							"conversion_um",
 							"pais",
+							"departamento",
+							"ciudad",
 							"promotor",
 							"vc_grupo",
 							"vc_productor",
@@ -154,8 +98,10 @@ function crearTablas()
 							"q_formulario",
 							"vc_variedad",
 							"vc_tipo_suelo",
-							"vc_certificacion"
-						 ] 
+							"vc_certificacion",
+							"q_encuesta",
+						"q_grupo"
+						 ]
 	},
 	function (data)
 	{
@@ -319,6 +265,10 @@ function logIn()
 			if (data.ingreso == 1)
 			{
 				window.sessionStorage.UserLogin = data.nombreUser;
+				window.sessionStorage.UserLoginUSR = data.usr;
+				window.sessionStorage.UserEmpresa = data.usrEmpresa;
+				window.sessionStorage.UserPais = data.usrPais;
+				
 				var Mensage = 'Hola. ' + data.nombreUser;
 				
 				new Messi(Mensage, 
@@ -417,6 +367,8 @@ function getDataTable()
 						"unidad_medida",
 						"conversion_um",
 						"pais",
+						"departamento",
+						"ciudad",
 						"promotor",
 						"vc_grupo",
 						"vc_productor",
@@ -424,8 +376,13 @@ function getDataTable()
 						"q_formulario",
 						"vc_variedad",
 						"vc_tipo_suelo",
-						"vc_certificacion"
-					  ]
+						"vc_certificacion",
+						"q_encuesta",
+						"q_grupo"
+					  ],
+		"usuario": window.sessionStorage.UserLoginUSR,
+		"empresa": window.sessionStorage.UserEmpresa,
+		"pais":	window.sessionStorage.UserPais
 	},
 	function (data)
 	{
